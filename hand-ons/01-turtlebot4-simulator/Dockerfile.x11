@@ -1,0 +1,52 @@
+FROM ros:humble
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Gazebo (Ignition) Fortress per TB4 Humble docs
+RUN apt-get update && apt-get install -y wget lsb-release gnupg2 \
+ && sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add - \
+ && apt-get update && apt-get install -y ignition-fortress \
+ && rm -rf /var/lib/apt/lists/*
+
+# TurtleBot 4 simulator + Create® 3 nodes + dev tools
+RUN apt-get update && apt-get install -y \
+    ros-humble-turtlebot4-simulator \
+    ros-humble-irobot-create-nodes \
+    ros-dev-tools \
+    nano \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies and Clingo
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-tk \
+    gringo \
+    ros-humble-turtlebot4-msgs \
+    ros-humble-irobot-create-nodes \
+    ros-humble-turtlebot4-viz \
+    ros-humble-turtlebot4-navigation \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies if needed (tkinter is preinstalled in base ROS)
+RUN pip install numpy clingo tqdm matplotlib
+
+WORKDIR /workspace
+COPY config/slam.yaml /opt/ros/humble/share/turtlebot4_navigation/config/slam.yaml
+COPY assets/maze maze
+COPY config/robot.rviz /opt/ros/humble/share/turtlebot4_viz/rviz/robot.rviz
+COPY config/slam.launch.py /opt/ros/humble/share/turtlebot4_navigation/launch/slam.launch.py
+
+COPY assets/urdf_models/maze.sdf /opt/ros/humble/share/turtlebot4_ignition_bringup/worlds/maze.sdf
+COPY assets/urdf_models/oakd.urdf.xacro /opt/ros/humble/share/turtlebot4_description/urdf/sensors/oakd.urdf.xacro
+COPY assets/urdf_models/rplidar.urdf.xacro /opt/ros/humble/share/turtlebot4_description/urdf/sensors/rplidar.urdf.xacro
+
+
+RUN echo "source /opt/ros/humble/setup.bash" >>/root/.bashrc
+
+SHELL ["/bin/bash", "-lc"]
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
+
+# Course simulator launch: supports Gazebo GUI and headless Gazebo with RViz2.
+COPY launch/course_simulator.launch.py /opt/ros/humble/share/turtlebot4_ignition_bringup/launch/course_simulator.launch.py
