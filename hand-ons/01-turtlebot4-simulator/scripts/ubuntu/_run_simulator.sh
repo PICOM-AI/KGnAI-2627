@@ -48,4 +48,4 @@ docker run --rm -it \
   --device /dev/dri \
   "$IMAGE" \
   ros2 launch turtlebot4_ignition_bringup course_simulator.launch.py \
-    world:=maze model:=standard headless:="$HEADLESS" rviz:=true slam:=true nav2:=true "$@"
+    headless:="$HEADLESS" "$@"

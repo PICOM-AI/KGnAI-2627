@@ -35,4 +35,4 @@ startxfce4 >/tmp/xfce.log 2>&1 &
 sleep 3
 
 exec ros2 launch turtlebot4_ignition_bringup course_simulator.launch.py \
-  world:=maze model:=standard headless:="$HEADLESS" rviz:=true slam:=true nav2:=true "$@"
+  headless:="$HEADLESS" "$@"
