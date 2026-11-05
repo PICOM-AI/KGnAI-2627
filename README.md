@@ -10,9 +10,8 @@ Welcome to the KGnAI course hands-on repository. Course material is released one
 
 ## Quick links: hand-on 01
 
-- [Build the TurtleBot4 Docker image](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/1build_docker_x11.sh)
-- [Launch Gazebo GUI with RViz2](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/2bringup_docker_gui.sh)
-- [Launch headless Gazebo with RViz2](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/2.1bringup_docker_headless.sh)
+- **Ubuntu:** [build image](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/1build_docker_x11.sh) · [Gazebo GUI](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/2bringup_docker_gui.sh) · [headless + RViz2](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/2.1bringup_docker_headless.sh)
+- **macOS:** [build VNC images](hand-ons/01-turtlebot4-simulator/scripts/macos/1build_docker_vnc.sh) · [Gazebo GUI + VNC](hand-ons/01-turtlebot4-simulator/scripts/macos/2bringup_docker_vnc.sh) · [headless Gazebo + RViz2 + VNC](hand-ons/01-turtlebot4-simulator/scripts/macos/2.1bringup_docker_vnc_headless.sh)
 
 Read the linked hand-on guide before running its scripts. It includes prerequisites, launch options, and troubleshooting notes.
 
@@ -23,10 +22,14 @@ hand-ons/
 └── 01-turtlebot4-simulator/
     ├── README.md
     ├── Dockerfile.x11
+    ├── Dockerfile.vnc
     ├── assets/
     ├── config/
     ├── launch/
-    └── scripts/ubuntu/
+    └── scripts/
+        ├── ubuntu/
+        ├── macos/
+        └── container/
 ```
 
 New hand-ons will appear in the index as they are released.

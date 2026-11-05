@@ -9,42 +9,69 @@ Both options use the same image and ROS configuration. Run one simulator mode at
 
 ## Requirements
 
+### Ubuntu
+
 - Ubuntu 22.04 recommended, with Docker Engine installed and usable by your account.
 - An active X11 desktop session (`DISPLAY` must be set) for RViz2.
 - `/dev/dri` devices for sensor rendering. NVIDIA passthrough is enabled automatically when `nvidia-smi` is available; otherwise Docker uses the host's available DRI device.
+
+### macOS
+
+- Docker Desktop installed and running.
+- A VNC viewer such as RealVNC Viewer or TigerVNC Viewer.
 - Several GB of free disk space for Docker layers and the image.
 
-## 1. Build the course image
+The macOS scripts follow the repository's established VNC-in-container setup; both simulator modes use the same VNC desktop. They publish VNC on `127.0.0.1:5900` without a password, so connect from the same Mac and do not expose that port to a network.
 
-Run from this folder:
+## Ubuntu setup
+
+Build the course image:
 
 ```bash
 ./scripts/ubuntu/1build_docker_x11.sh
 ```
 
-The script also works when invoked by its absolute or relative path from another directory. It builds and tags `turtlebot4:x11`. The first build can take a while as Docker downloads ROS, Gazebo, and course dependencies.
+The script works when invoked from this folder or by its path from another directory. It builds and tags `turtlebot4:x11`.
 
-## 2. Choose a simulator mode
-
-For Gazebo GUI + RViz2:
+Choose one simulator mode:
 
 ```bash
+# Gazebo GUI + RViz2
 ./scripts/ubuntu/2bringup_docker_gui.sh
-```
 
-For headless Gazebo + RViz2:
-
-```bash
+# Headless Gazebo + RViz2
 ./scripts/ubuntu/2.1bringup_docker_headless.sh
 ```
 
-Optional ROS launch arguments can follow either command, for example:
+## macOS setup
+
+Build the shared simulator image and the VNC-enabled image:
+
+```bash
+./scripts/macos/1build_docker_vnc.sh
+```
+
+Choose one simulator mode:
+
+```bash
+# Gazebo GUI + RViz2, displayed through VNC
+./scripts/macos/2bringup_docker_vnc.sh
+
+# Headless Gazebo + RViz2, displayed through VNC
+./scripts/macos/2.1bringup_docker_vnc_headless.sh
+```
+
+After the VNC script starts, connect the viewer to `127.0.0.1:5900`. Press `Ctrl+C` in Terminal to stop the simulator.
+
+## Using the simulator
+
+Both platforms start the maze, standard TurtleBot4, SLAM, Nav2, and RViz2. In RViz2, use the Navigation panel to set an initial pose and send navigation goals. Headless mode hides Gazebo's 3D window but keeps the ROS sensors and RViz2 available. Direct Gazebo world/entity editing requires GUI mode.
+
+Optional ROS launch arguments can follow a bringup command, for example:
 
 ```bash
 ./scripts/ubuntu/2.1bringup_docker_headless.sh world:=maze slam:=true nav2:=true
 ```
-
-By default, the launch starts the maze, standard TurtleBot4, SLAM, Nav2, and RViz2. In RViz2, use the Navigation panel to set an initial pose and send navigation goals. Direct Gazebo world/entity editing remains a GUI-mode task.
 
 ## Contents
 
@@ -52,6 +79,8 @@ By default, the launch starts the maze, standard TurtleBot4, SLAM, Nav2, and RVi
 - `scripts/ubuntu/2bringup_docker_gui.sh` launches Gazebo GUI + RViz2.
 - `scripts/ubuntu/2.1bringup_docker_headless.sh` launches headless Gazebo + RViz2.
 - `scripts/ubuntu/_run_simulator.sh` contains the common container/display setup.
-- `Dockerfile.x11`, `course_simulator.launch.py`, `robot.rviz`, and the maze, robot-description, and RViz assets make this hand-on self-contained.
+- `scripts/macos/` provides the matching VNC-based build and both simulator modes.
+- `scripts/container/start_vnc_simulator.sh` starts the VNC desktop and course launch inside the container.
+- `Dockerfile.x11`, `Dockerfile.vnc`, `launch/`, `config/`, and `assets/` make this hand-on self-contained.
 
 Later hand-ons will be added as separate folders under `hand-ons/`.
