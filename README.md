@@ -1,9 +1,32 @@
-# KGnAI 2026–2027 hands-on course
+# KGnAI 2026–2027 Hands-on Course
 
-Course material is organized into self-contained hand-on folders. Each folder contains its instructions, scripts, and required files.
+Welcome to the KGnAI course hands-on repository. Course material is released one hand-on at a time. Each hand-on folder contains its own instructions, scripts, configuration, and required assets.
 
-## Available hand-ons
+## Hand-on index
 
-1. [TurtleBot4 simulator setup](hand-ons/01-turtlebot4-simulator/README.md) — build the course image, then choose the Gazebo GUI or headless + RViz2 option.
+| No. | Hand-on | Activities | Guide |
+| --- | --- | --- | --- |
+| 01 | TurtleBot4 simulator setup | Build the course image and choose Gazebo GUI or headless Gazebo with RViz2. | [Open hand-on 01](hand-ons/01-turtlebot4-simulator/README.md) |
 
-More hand-ons will be published as they are prepared.
+## Quick links: hand-on 01
+
+- [Build the TurtleBot4 Docker image](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/1build_docker_x11.sh)
+- [Launch Gazebo GUI with RViz2](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/2bringup_docker_gui.sh)
+- [Launch headless Gazebo with RViz2](hand-ons/01-turtlebot4-simulator/scripts/ubuntu/2.1bringup_docker_headless.sh)
+
+Read the linked hand-on guide before running its scripts. It includes prerequisites, launch options, and troubleshooting notes.
+
+## Repository structure
+
+```text
+hand-ons/
+└── 01-turtlebot4-simulator/
+    ├── README.md
+    ├── Dockerfile.x11
+    ├── assets/
+    ├── config/
+    ├── launch/
+    └── scripts/ubuntu/
+```
+
+New hand-ons will appear in the index as they are released.
